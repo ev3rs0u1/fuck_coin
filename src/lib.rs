@@ -6,7 +6,7 @@ extern crate serde_json;
 
 use std::io::Read;
 
-#[derive(Debug)]
+#[derive(Debug, Default)]
 pub struct Coin {
     pub symbol: String,
     pub price: f64,
@@ -215,12 +215,8 @@ impl Coin {
     pub fn new(symbol: &str, delay: u64) -> Self {
         Coin {
             symbol: symbol.to_string(),
-            price: 0.0,
-            high: 0.0,
-            low: 0.0,
-            cny: 0.0,
-            rate: 0.0,
-            delay: delay,
+            delay,
+            ..Default::default()
         }
     }
 
@@ -246,7 +242,7 @@ impl Coin {
 
         if (self.price > self.high ||
             self.price < self.low) && self.high > 0.0 {
-            let api_url = "https://sc.ftqq.com/YOUR-SERVERCHAN-SCKEY.send";
+            let api_url = "https://sc.ftqq.com/SCU7858Tfbad8a804df5762202060d87265f49f458ff85975bcae.send";
             reqwest::Client::new()
                 .post(api_url)
                 .form(&[("desp", self.cny.to_string()), ("text", self.symbol.to_string())])
